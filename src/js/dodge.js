@@ -48,6 +48,17 @@ const SLEEP_SPEED = 4;
  */
 const DISENGAGE_RADIUS = AWARE_RADIUS * 1.6;
 
+/**
+ * Silence at the start.
+ *
+ * The question appears wherever the pointer already is — she just clicked "tap
+ * to open" in the middle of the screen, and the buttons land right there. That
+ * first contact isn't her going after the button, so the sound would fire
+ * before she'd done anything. The button still slides away; it just does it
+ * quietly.
+ */
+const GRACE_MS = 500;
+
 /* -------------------------------------------------------------------------- */
 
 /**
@@ -68,6 +79,9 @@ export function initDodge(noButton, yesButton, options = {}) {
 
   /** True while the pointer is inside the awareness radius. */
   let engaged = false;
+
+  /** When the simulation started, for the opening grace period. */
+  const startedAt = performance.now();
 
   /** Where the pointer is, or null when it's nowhere near. */
   let pointer = null;
@@ -131,7 +145,10 @@ export function initDodge(noButton, yesButton, options = {}) {
 
         if (!engaged) {
           engaged = true;
-          onDodge();
+          // Inside the grace window this is the pointer happening to be where
+          // the button spawned, not a real attempt. Mark it engaged so it
+          // doesn't fire the moment she twitches, but stay quiet.
+          if (time - startedAt > GRACE_MS) onDodge();
         }
       } else if (engaged && distance > DISENGAGE_RADIUS) {
         engaged = false;
@@ -240,7 +257,7 @@ export function initDodge(noButton, yesButton, options = {}) {
 
     vx += (dx / distance) * TAP_IMPULSE;
     vy += (dy / distance) * TAP_IMPULSE;
-    onDodge();
+    if (performance.now() - startedAt > GRACE_MS) onDodge();
     wake();
   }
 
@@ -270,4 +287,27 @@ export function initDodge(noButton, yesButton, options = {}) {
   noButton.setAttribute('aria-hidden', 'true');
   noButton.setAttribute('tabindex', '-1');
   noButton.style.touchAction = 'none';
+
+  /**
+   * Shut it down.
+   *
+   * The pointer listeners live on `document`, not on the button, so hiding the
+   * button isn't enough — the simulation would keep running against stale
+   * coordinates and keep firing onDodge. Anything that takes the question off
+   * screen has to call this.
+   */
+  return function destroy() {
+    document.removeEventListener('pointermove', onPointerMove);
+    document.removeEventListener('pointerleave', onPointerLeave);
+    noButton.removeEventListener('pointerdown', onPointerDown);
+    noButton.removeEventListener('click', onClick);
+    window.removeEventListener('resize', onResize);
+
+    if (frame !== null) {
+      cancelAnimationFrame(frame);
+      frame = null;
+    }
+    pointer = null;
+    engaged = false;
+  };
 }
