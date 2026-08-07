@@ -1,0 +1,123 @@
+/* ==========================================================================
+   Scenery — everything behind the content.
+
+   All of it is inert: pointer-events are off throughout, and it sits at a
+   negative z-index so it can never intercept a click meant for the UI.
+   ========================================================================== */
+
+.scenery {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* --- Sun ---------------------------------------------------------------- */
+
+.sun {
+  position: absolute;
+  top: clamp(-10px, 2vw, 24px);
+  right: clamp(-24px, -2vw, 8px);
+  width: clamp(120px, 26vw, 210px);
+  animation: bob 7s ease-in-out infinite;
+}
+
+@keyframes bob {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-14px) rotate(3deg);
+  }
+}
+
+/* --- Rainbow ------------------------------------------------------------ */
+
+/* Deliberately very faint. A rainbow at full saturation is the fastest way to
+   make a page look like clip art; at 22% it reads as light in the sky. */
+
+.rainbow {
+  position: absolute;
+  bottom: clamp(-14vh, -6vh, 0px);
+  left: 50%;
+  width: min(150vw, 1100px);
+  opacity: 0.3;
+  transform: translateX(-50%);
+  animation: breathe 12s ease-in-out infinite;
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    opacity: 0.24;
+  }
+  50% {
+    opacity: 0.36;
+  }
+}
+
+/* --- Hearts ------------------------------------------------------------- */
+
+/* Sparse on purpose — a handful drifting slowly reads as atmosphere, a swarm
+   reads as a screensaver. Count is set in scenery.js. */
+
+.heart {
+  position: absolute;
+  bottom: -60px;
+  color: var(--rose-light);
+  opacity: 0;
+  will-change: transform, opacity;
+  animation: drift linear infinite;
+}
+
+@keyframes drift {
+  0% {
+    opacity: 0;
+    transform: translateY(0) translateX(0) rotate(0deg) scale(0.7);
+  }
+  12% {
+    opacity: var(--heart-peak);
+  }
+  50% {
+    transform: translateY(-52vh) translateX(var(--heart-sway)) rotate(14deg) scale(1);
+  }
+  88% {
+    opacity: var(--heart-peak);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-108vh) translateX(0) rotate(-8deg) scale(0.85);
+  }
+}
+
+/* --- Grain -------------------------------------------------------------- */
+
+/* Fine noise over the whole page. Gradients on cheap panels show visible
+   banding; grain hides it and adds a bit of texture at almost no cost. */
+
+.grain {
+  position: fixed;
+  inset: -50%;
+  z-index: 0;
+  opacity: 0.42;
+  pointer-events: none;
+  mix-blend-mode: soft-light;
+}
+
+/* --- Motion preference -------------------------------------------------- */
+
+/* The scenery is decoration, so it stops entirely rather than snapping to a
+   final frame. The sky gradient stays. */
+
+@media (prefers-reduced-motion: reduce) {
+  .sun,
+  .rainbow {
+    animation: none;
+  }
+
+  .heart {
+    display: none;
+  }
+}

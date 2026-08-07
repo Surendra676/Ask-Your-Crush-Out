@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Ask Your Crush Out — a link where the No button doesn't work</title>
+    <meta
+      name="description"
+      content="Worst they can say is No. What if No isn't an option? Make your link in twenty seconds."
+    />
+    <meta name="theme-color" content="#ffdfe9" />
+
+    <meta property="og:title" content="Ask Your Crush Out" />
+    <meta
+      property="og:description"
+      content="A link where the No button doesn't work."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="./assets/og-image.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="./src/css/tokens.css" />
+    <link rel="stylesheet" href="./src/css/base.css" />
+    <link rel="stylesheet" href="./src/css/scenery.css" />
+    <link rel="stylesheet" href="./src/css/builder.css" />
+  </head>
+
+  <body>
+    <main class="shell">
+      <header class="hero">
+        <h1 class="hero__title">Ask your Crush Out?</h1>
+        <p class="hero__lede lede">
+          Worst they can say is No.<br />
+          <em>What if No isn't an option?</em>
+        </p>
+      </header>
+
+      <!-- Builder. Three fields — any more and people close the tab. -->
+      <section class="card builder" id="builder" aria-labelledby="builder-heading">
+        <h2 class="visually-hidden" id="builder-heading">Make your link</h2>
+
+        <div class="field">
+          <label class="field__label" for="recipient">Who's it for?</label>
+          <input
+            class="input"
+            id="recipient"
+            type="text"
+            maxlength="60"
+            autocomplete="off"
+            placeholder="their name"
+          />
+        </div>
+
+        <!-- Suggestions are a nudge; the field stays freely typeable. -->
+        <div class="field field--combo">
+          <label class="field__label" for="question">What are you asking?</label>
+          <input
+            class="input"
+            id="question"
+            type="text"
+            maxlength="200"
+            autocomplete="off"
+            role="combobox"
+            aria-expanded="false"
+            aria-controls="suggestions"
+            aria-autocomplete="list"
+          />
+          <ul class="suggestions" id="suggestions" role="listbox" hidden></ul>
+        </div>
+
+        <div class="field">
+          <label class="field__label" for="phone">Your number</label>
+          <input
+            class="input"
+            id="phone"
+            type="tel"
+            maxlength="24"
+            autocomplete="tel"
+            placeholder="+1 647 555 0123"
+          />
+          <p class="field__hint" id="phone-hint">
+            So they can text you back. It only ever lives in the link.
+          </p>
+        </div>
+
+        <button class="btn btn--primary btn--block" id="make-link" type="button" disabled>
+          <span aria-hidden="true">✨</span> Create Link
+        </button>
+      </section>
+
+      <!-- Result. Swaps in once a link exists. -->
+      <section class="card result" id="result" hidden aria-labelledby="result-heading">
+        <h2 class="result__title" id="result-heading">Your link is ready</h2>
+        <p class="result__sub muted">Send it and wait.</p>
+
+        <p class="link" id="link-output"></p>
+
+        <div class="result__actions">
+          <button class="btn btn--primary" id="copy-link" type="button">Copy</button>
+          <button class="btn btn--glass" id="share-link" type="button" hidden>Share</button>
+        </div>
+
+        <a class="result__preview" id="preview-link" target="_blank" rel="noopener">
+          See what they'll see →
+        </a>
+
+        <button class="result__back" id="edit-again" type="button">← change something</button>
+      </section>
+
+      <footer class="footer">
+        <p>Nothing is saved anywhere. The whole ask travels inside the link.</p>
+      </footer>
+    </main>
+
+    <script type="module" src="./src/js/builder.js"></script>
+  </body>
+</html>

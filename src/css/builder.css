@@ -1,0 +1,181 @@
+/* ==========================================================================
+   Builder — the page the sender lands on.
+   ========================================================================== */
+
+.shell {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  min-height: 100svh;
+  padding-block: var(--space-8) var(--space-6);
+}
+
+/* --- Hero --------------------------------------------------------------- */
+
+.hero {
+  text-align: center;
+}
+
+.hero__title {
+  font-size: clamp(2.25rem, 11vw, var(--text-5xl));
+  text-wrap: balance;
+
+  /* The gradient is on the type rather than a background panel — it keeps the
+     sky uninterrupted and stops the hero looking like a pasted-on banner. */
+  background: linear-gradient(135deg, #d93b62 0%, #f65c7f 45%, #ff8f6b 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero__lede {
+  margin-top: var(--space-4);
+}
+
+.hero__lede em {
+  font-family: var(--font-display);
+  font-variation-settings: var(--display-soft);
+  font-size: 1.12em;
+  font-style: italic;
+  color: var(--rose-deep);
+}
+
+/* --- Builder ------------------------------------------------------------ */
+
+.builder {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.builder .btn {
+  margin-top: var(--space-2);
+}
+
+/* --- Suggestions -------------------------------------------------------- */
+
+/* Floats over what's below rather than shoving the form down the page. */
+
+.field--combo {
+  position: relative;
+}
+
+.suggestions {
+  position: absolute;
+  top: 100%;
+  z-index: 30;
+  width: 100%;
+  margin-top: var(--space-2);
+  overflow: hidden;
+  list-style: none;
+  background: rgb(255 255 255 / 0.9);
+  border: 1px solid var(--glass-line);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  animation: drop 0.22s var(--ease-out);
+}
+
+@keyframes drop {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+}
+
+.suggestion {
+  width: 100%;
+  padding: var(--space-3) var(--space-5);
+  font-size: var(--text-base);
+  text-align: left;
+  transition: background-color 0.16s var(--ease-soft), padding-left 0.16s var(--ease-soft);
+}
+
+.suggestion:hover,
+.suggestion[aria-selected='true'] {
+  padding-left: var(--space-6);
+  background: rgb(246 92 127 / 0.09);
+}
+
+/* --- Result ------------------------------------------------------------- */
+
+.result {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  align-items: center;
+  text-align: center;
+  animation: rise 0.5s var(--ease-out) both;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.97);
+  }
+}
+
+.result__title {
+  font-size: var(--text-2xl);
+  color: var(--rose-deep);
+}
+
+.result__sub {
+  margin-top: calc(var(--space-2) * -1);
+  font-size: var(--text-sm);
+}
+
+.link {
+  width: 100%;
+  padding: var(--space-4);
+  overflow-wrap: anywhere;
+  font-size: var(--text-xs);
+  line-height: 1.7;
+  color: var(--ink-soft);
+  text-align: left;
+  background: rgb(255 255 255 / 0.66);
+  border-radius: var(--radius-md);
+}
+
+.result__actions {
+  display: flex;
+  gap: var(--space-3);
+  width: 100%;
+}
+
+.result__actions .btn {
+  flex: 1;
+  font-size: var(--text-base);
+}
+
+.result__preview {
+  font-family: var(--font-display);
+  font-variation-settings: var(--display-soft);
+  font-size: var(--text-lg);
+  font-weight: 600;
+  color: var(--rose-deep);
+  text-decoration: none;
+  transition: transform 0.24s var(--ease-spring);
+}
+
+.result__preview:hover {
+  transform: translateX(4px);
+}
+
+.result__back {
+  font-size: var(--text-sm);
+  color: var(--ink-faint);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* --- Footer ------------------------------------------------------------- */
+
+.footer {
+  margin-top: auto;
+  padding-top: var(--space-5);
+  font-size: var(--text-xs);
+  color: var(--ink-faint);
+  text-align: center;
+}

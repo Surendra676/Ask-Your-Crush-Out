@@ -1,0 +1,313 @@
+/* ==========================================================================
+   Ask — the page the crush opens.
+   ========================================================================== */
+
+.ask {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  max-width: 34rem;
+  min-height: 100svh;
+  margin-inline: auto;
+  padding: var(--space-6) var(--space-5);
+}
+
+/* --- The question ------------------------------------------------------- */
+
+.prompt {
+  width: 100%;
+  text-align: center;
+}
+
+.prompt__to {
+  margin-bottom: var(--space-4);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  animation: fade-up 0.6s var(--ease-out) both;
+}
+
+.prompt__question {
+  font-size: clamp(2rem, 9vw, var(--text-4xl));
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+  color: var(--ink);
+  animation: fade-up 0.7s var(--ease-out) 0.12s both;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+
+/* --- Choices ------------------------------------------------------------ */
+
+.choices {
+  display: flex;
+  gap: var(--space-4);
+  justify-content: center;
+  margin-top: var(--space-7);
+  animation: fade-up 0.7s var(--ease-out) 0.3s both;
+}
+
+.choice {
+  display: inline-flex;
+  gap: var(--space-2);
+  align-items: center;
+  padding: var(--space-4) var(--space-6);
+  font-family: var(--font-display);
+  font-variation-settings: var(--display-soft);
+  font-size: var(--text-xl);
+  font-weight: 600;
+  border-radius: var(--radius-full);
+}
+
+.choice--yes {
+  color: #fff;
+  background: var(--accent-gradient);
+  box-shadow: var(--shadow-rose);
+  transition: transform 0.3s var(--ease-spring), box-shadow 0.3s var(--ease-soft);
+}
+
+.choice--yes:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: var(--shadow-rose-lift);
+}
+
+.choice--yes:active {
+  transform: translateY(-1px) scale(0.99);
+}
+
+/* The No button is driven frame by frame from dodge.js, so it gets no
+   transition of its own — a CSS transition fighting a physics loop is exactly
+   what produces the jitter this design is trying to avoid. */
+.choice--no {
+  position: relative;
+  z-index: 2;
+  color: var(--ink-soft);
+  background: var(--glass-strong);
+  border: 1px solid var(--glass-line);
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  will-change: transform;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* --- Celebration -------------------------------------------------------- */
+
+.win {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  align-items: center;
+  width: 100%;
+  text-align: center;
+}
+
+.win__title {
+  font-size: clamp(2.5rem, 12vw, var(--text-5xl));
+  background: linear-gradient(135deg, #d93b62 0%, #f65c7f 50%, #ff8f6b 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: pop 0.6s var(--ease-spring) both;
+}
+
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: scale(0.72) rotate(-3deg);
+  }
+}
+
+.win__body {
+  max-width: 24rem;
+  animation: fade-up 0.5s var(--ease-out) 0.2s both;
+}
+
+.win__actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  width: 100%;
+  max-width: 22rem;
+  margin-top: var(--space-4);
+  animation: fade-up 0.5s var(--ease-out) 0.36s both;
+}
+
+.win__note {
+  font-size: var(--text-xs);
+  color: var(--ink-faint);
+  animation: fade-up 0.5s var(--ease-out) 0.5s both;
+}
+
+/* --- The gate ----------------------------------------------------------- */
+
+/* One tap before the question. It unlocks audio for the session, and the pause
+   does the page a favour anyway — a beat of "here it comes" before the ask. */
+
+.gate {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  align-items: center;
+  text-align: center;
+  animation: fade-up 0.7s var(--ease-out) both;
+}
+
+.gate__to {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.gate__button {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  align-items: center;
+  padding: var(--space-6) var(--space-7);
+  font-family: var(--font-display);
+  font-variation-settings: var(--display-soft);
+  font-size: var(--text-xl);
+  font-weight: 600;
+  color: var(--ink-soft);
+  background: var(--glass);
+  border: 1px solid var(--glass-line);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-md);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  transition: transform 0.32s var(--ease-spring), box-shadow 0.32s var(--ease-soft);
+}
+
+.gate__button:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.gate__button:active {
+  transform: translateY(-1px) scale(0.98);
+}
+
+.gate__envelope {
+  font-size: 3.5rem;
+  line-height: 1;
+  animation: nudge 2.6s var(--ease-soft) infinite;
+}
+
+@keyframes nudge {
+  0%,
+  70%,
+  100% {
+    transform: rotate(0deg) scale(1);
+  }
+  78% {
+    transform: rotate(-7deg) scale(1.07);
+  }
+  86% {
+    transform: rotate(6deg) scale(1.07);
+  }
+}
+
+/* --- Mute --------------------------------------------------------------- */
+
+.mute {
+  position: fixed;
+  top: var(--space-4);
+  left: var(--space-4);
+  z-index: 5;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  font-size: var(--text-lg);
+  background: var(--glass);
+  border: 1px solid var(--glass-line);
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  opacity: 0.55;
+  transition: opacity 0.24s var(--ease-soft), transform 0.24s var(--ease-spring);
+}
+
+.mute:hover {
+  opacity: 1;
+  transform: scale(1.08);
+}
+
+.mute__off,
+.mute[aria-pressed='true'] .mute__on {
+  display: none;
+}
+
+.mute[aria-pressed='true'] .mute__off {
+  display: block;
+}
+
+/* --- Confetti ----------------------------------------------------------- */
+
+/* Positioned by ask.js, which sets the custom properties each piece travels
+   along. The animation itself is CSS so it stays on the compositor. */
+
+.confetti {
+  position: absolute;
+  inset: 0;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.confetti__piece {
+  position: absolute;
+  top: 28%;
+  left: 50%;
+  width: 9px;
+  height: 13px;
+  background: var(--piece-color);
+  border-radius: 2px;
+  animation: burst 1.8s var(--ease-out) var(--piece-delay) forwards;
+}
+
+@keyframes burst {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) rotate(0deg) scale(0.4);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--piece-x), var(--piece-y)) rotate(var(--piece-spin)) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .confetti {
+    display: none;
+  }
+}
+
+/* --- Broken link -------------------------------------------------------- */
+
+.broken {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  align-items: center;
+  text-align: center;
+}
+
+.broken__title {
+  font-size: var(--text-2xl);
+  text-wrap: balance;
+}

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Someone's asking you something</title>
+    <meta name="description" content="Open it. It'll only take a second." />
+    <meta name="theme-color" content="#ffdfe9" />
+
+    <meta property="og:title" content="someone's asking you something 👀" />
+    <meta property="og:description" content="open it, it'll only take a second" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="../assets/og-image.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- None of these should ever reach search results. -->
+    <meta name="robots" content="noindex, nofollow" />
+
+    <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="../src/css/tokens.css" />
+    <link rel="stylesheet" href="../src/css/base.css" />
+    <link rel="stylesheet" href="../src/css/scenery.css" />
+    <link rel="stylesheet" href="../src/css/ask.css" />
+  </head>
+
+  <body>
+    <main class="ask">
+      <!-- Audio is blocked by browsers until the page has been genuinely
+           interacted with, and a hover doesn't count. This gate is that
+           interaction — and it buys a beat of anticipation before the
+           question lands, which the page wanted anyway. -->
+      <section class="gate" id="gate" hidden>
+        <p class="gate__to" id="gate-to" hidden></p>
+        <button class="gate__button" id="gate-open" type="button">
+          <span class="gate__envelope" aria-hidden="true">💌</span>
+          <span>tap to open</span>
+        </button>
+      </section>
+
+      <section class="prompt" id="prompt" hidden>
+        <p class="prompt__to" id="prompt-to" hidden></p>
+        <h1 class="prompt__question" id="question"></h1>
+
+        <div class="choices" id="choices">
+          <!-- Yes never moves. It's the only thing on the page that can be
+               pressed, and it stays exactly where it was first seen. -->
+          <button class="choice choice--yes" id="yes" type="button">
+            <span aria-hidden="true">❤️</span> Yes
+          </button>
+          <button class="choice choice--no" id="no" type="button">
+            <span aria-hidden="true">🤍</span> No
+          </button>
+        </div>
+      </section>
+
+      <button class="mute" id="mute" type="button" hidden aria-pressed="false">
+        <span class="mute__on" aria-hidden="true">🔊</span>
+        <span class="mute__off" aria-hidden="true">🔇</span>
+        <span class="visually-hidden">Mute sound</span>
+      </button>
+
+      <section class="win" id="win" hidden>
+        <div class="confetti" id="confetti" aria-hidden="true"></div>
+
+        <h1 class="win__title" id="win-title"></h1>
+        <p class="win__body lede" id="win-body"></p>
+
+        <div class="win__actions">
+          <a class="btn btn--primary btn--block" id="sms" href="#">Text them 💬</a>
+          <a class="btn btn--glass btn--block" id="whatsapp" href="#" target="_blank" rel="noopener">
+            WhatsApp instead
+          </a>
+        </div>
+
+        <p class="win__note">Tap one, then hit send — a website can't send it for you.</p>
+      </section>
+
+      <!-- Shown when a chat app truncated the link on the way over. -->
+      <section class="broken" id="broken" hidden>
+        <h1 class="broken__title">This link didn't survive the trip</h1>
+        <p class="lede">
+          Chat apps sometimes cut long links in half. Ask whoever sent it to send
+          the whole thing again.
+        </p>
+        <a class="btn btn--glass" href="../">Make your own →</a>
+      </section>
+
+      <p class="visually-hidden" role="status" id="announcer"></p>
+    </main>
+
+    <script type="module" src="../src/js/ask.js"></script>
+  </body>
+</html>
