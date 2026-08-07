@@ -277,7 +277,7 @@
   height: 13px;
   background: var(--piece-color);
   border-radius: 2px;
-  animation: burst 1.8s var(--ease-out) var(--piece-delay) forwards;
+  animation: burst 3.5s var(--ease-out) var(--piece-delay) forwards;
 }
 
 @keyframes burst {

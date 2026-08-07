@@ -171,12 +171,12 @@ function throwConfetti() {
   ];
 
   els.confetti.replaceChildren(
-    ...Array.from({ length: 30 }, (_, index) => {
+    ...Array.from({ length: 80 }, (_, index) => {
       const piece = document.createElement('i');
       piece.className = 'confetti__piece';
 
-      const angle = (index / 30) * Math.PI * 2 + Math.random() * 0.5;
-      const distance = 100 + Math.random() * 200;
+      const angle = (index / 80) * Math.PI * 2 + Math.random() * 0.5;
+      const distance = 100 + Math.random() * 400;
 
       piece.style.setProperty('--piece-color', colors[index % colors.length]);
       piece.style.setProperty('--piece-x', `${Math.cos(angle) * distance}px`);

@@ -15,19 +15,19 @@
 /* --- Tuning --------------------------------------------------------------- */
 
 /** Pointer distance at which it starts to care, in px. */
-const AWARE_RADIUS = 115;
+const AWARE_RADIUS = 95;
 
 /** Shove strength. Scales with how close the pointer is. */
-const PUSH = 3000;
+const PUSH = 4500;
 
 /** How hard it wants to be back home. Low, so it drifts rather than snaps. */
-const SPRING = 9;
+const SPRING = 1.5;
 
 /** Velocity retained per 60fps frame. Lower is more syrupy. */
-const DAMPING = 0.9;
+const DAMPING = 0.93;
 
 /** Bounce energy kept when it hits a wall. */
-const BOUNCE = 0.55;
+const BOUNCE = 0.8;
 
 /** Keep-out distance around the Yes button. */
 const YES_CLEARANCE = 28;
