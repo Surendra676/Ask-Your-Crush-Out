@@ -33,6 +33,12 @@ const els = {
 
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+/** Length of the Yes sting, after which the celebration track starts. */
+const YES_STING_MS = 1800;
+
+let celebrateTimer = null;
+let stopDodge = null;
+
 mountScenery();
 
 const ask = readUrl();
@@ -73,6 +79,13 @@ function start(ask) {
     const next = !sound.isMuted();
     sound.setMuted(next);
     els.mute.setAttribute('aria-pressed', String(next));
+    // Muting has to cancel the queued track too, or it arrives 1.8s later
+    // regardless. setMuted stops anything already playing; this stops what
+    // hasn't started.
+    if (next && celebrateTimer) {
+      clearTimeout(celebrateTimer);
+      celebrateTimer = null;
+    }
   });
 }
 
@@ -93,7 +106,9 @@ function openAsk() {
 
   // Wait for layout and webfonts before measuring, or the resting position is
   // read from a page that hasn't settled yet.
-  const begin = () => initDodge(els.no, els.yes, { onDodge: sound.play });
+  const begin = () => {
+    stopDodge = initDodge(els.no, els.yes, { onDodge: sound.playDodge });
+  };
   if (document.fonts?.ready) {
     document.fonts.ready.then(begin);
   } else {
@@ -106,13 +121,27 @@ function openAsk() {
 /* -------------------------------------------------------------------------- */
 
 function pressYes(ask) {
+  // The dodge listens on `document`, so hiding the prompt isn't enough — it
+  // would keep running against stale coordinates and keep firing its sound
+  // whenever the cursor moved near where No used to be. Which is exactly where
+  // the celebration buttons are.
+  if (stopDodge) {
+    stopDodge();
+    stopDodge = null;
+  }
+
   els.prompt.hidden = true;
   els.win.hidden = false;
-  els.mute.hidden = true;
 
   els.winTitle.textContent = COPY.winTitle;
   els.winBody.textContent = COPY.winBody;
   els.announcer.textContent = COPY.winTitle;
+
+  // The sting fires on the press; the longer track follows once it's finished,
+  // by which point the confetti has settled and she's reading the message.
+  // Overlapping them just muddies both.
+  sound.play('yes');
+  celebrateTimer = setTimeout(() => sound.play('celebrate'), YES_STING_MS);
 
   if (ask.phone) {
     els.sms.href = smsUrl(ask.phone, COPY.reply);

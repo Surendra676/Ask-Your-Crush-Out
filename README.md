@@ -6,7 +6,7 @@ Fill in three fields, get a link, send it. When they open it the question is
 waiting with two buttons — and No slides away from every cursor and every
 finger that goes near it. Yes doesn't move.
 
-**[Try it →](https://YOUR-Surendra676.github.io/ask-your-crush-out/)**
+**[Try it →](https://Surendra676.github.io/ask-your-crush-out/)**
 
 ---
 
@@ -42,17 +42,21 @@ leave it alone.
 
 **The sound** needs the "tap to open" screen. Browsers won't play audio until
 you've actually clicked something, and hovering doesn't count — so without that
-first tap it would never fire on desktop.
+first tap it would never fire on desktop. Three clips: one on every dodge, a
+sting on Yes, and a track that follows once the sting finishes.
 
 ---
 
 ## Files
 
+```
 index.html          the form
 ask/index.html      what they open
 src/css/tokens.css  every colour and size — change the look here
 src/js/dodge.js     the No button
 src/js/link.js      packing the ask into the URL
+```
 
+---
 
 Built with vanilla JS. Hosted on GitHub Pages.
